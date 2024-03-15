@@ -19,14 +19,16 @@ const Navbar = () => {
       >
         <div className={`${flexBetween} mx-auto w-5/6`}>
           <div className={`flex w-full md:gap-16 xs:gap-3 smd:${flexBetween}`}>
-            {/* LEFT SIDE */}
+            {/* icon*/}
             <Link to="/">
               <h1 className="font-bold text-xl flex">
                 <span className="text-slate-500">Srijan</span>
                 <span className="text-slate-700">Estate</span>
               </h1>
             </Link>
-            {/* RIGHT SIDE */}
+
+            {/* left side */}
+
             {isAboveMediumScreens ? (
               <div className={`${flexBetween} w-full`}>
                 <ul className={`${flexBetween} gap-8 text-sm`}>
@@ -37,7 +39,9 @@ const Navbar = () => {
                     <li className="hover:underline">About</li>
                   </Link>
                 </ul>
-                {/* search bar */}
+
+                {/* search bar in the middle */}
+
                 <form className="relative ml-4">
                   <input
                     type="text"
@@ -48,6 +52,9 @@ const Navbar = () => {
                     <MagnifyingGlassIcon className="h-6 w-6 text-gray-700" />
                   </div>
                 </form>
+
+                {/* right side */}
+
                 <ul className={`${flexBetween} gap-8`}>
                   <Link to="/sign-in">
                     <li className="hover:underline">Sign In</li>
@@ -59,10 +66,10 @@ const Navbar = () => {
               </div>
             ) : (
               <button
-                className="rounded-full bg-gray-400 p-2"
+                className="rounded-full p-2"
                 onClick={() => setIsMenuToggled(!isMenuToggled)}
               >
-                <Bars3Icon className="h-6 w-6 text-white" />
+                <Bars3Icon className="h-6 w-6 text-black" />
               </button>
             )}
           </div>
@@ -75,12 +82,13 @@ const Navbar = () => {
           {/* CLOSE ICON */}
           <div className="flex justify-end p-12">
             <button onClick={() => setIsMenuToggled(!isMenuToggled)}>
-              <XMarkIcon className="h-6 w-6 text-gray-600" />
+              <XMarkIcon className="h-6 w-6 text-black" />
             </button>
           </div>
 
           {/* MENU ITEMS */}
           <ul className="ml-[15%] flex flex-col gap-10 text-2xl">
+            {/* search bar */}
             <form className="relative ml-[-10rem]">
               <input
                 type="text"
@@ -91,6 +99,9 @@ const Navbar = () => {
                 <MagnifyingGlassIcon className="h-6 w-6 text-gray-700" />
               </div>
             </form>
+
+            {/* link tags */}
+
             <Link to="/">
               <li className="hover:underline">home</li>
             </Link>

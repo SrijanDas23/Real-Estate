@@ -6,117 +6,185 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import useMediaQuery from "../hooks/useMediaQuery";
+import {
+  useDisclosure,
+  Input,
+  InputGroup,
+  InputRightElement,
+  extendTheme,
+  Box,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Button,
+  Heading,
+} from "@chakra-ui/react";
+import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
+import { Stack } from "@chakra-ui/react";
 
 const Navbar = () => {
   const flexBetween = "flex items-center justify-between";
   const [isMenuToggled, setIsMenuToggled] = useState(false);
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const firstField = React.useRef();
 
   return (
     <nav>
-      <div
-        className={` ${flexBetween} fixed top-0 z-40 w-full py-5 bg-gray-200`}
+      <Box
+        py="4"
+        mb="2"
+        position="fixed"
+        top="0"
+        left="0"
+        right="0"
+        zIndex="999"
+        bg="transparent"
       >
         <div className={`${flexBetween} mx-auto w-5/6`}>
           <div className={`flex w-full md:gap-16 xs:gap-3 smd:${flexBetween}`}>
             {/* icon*/}
             <Link to="/">
-              <h1 className="font-bold text-xl flex">
-                <span className="text-slate-500">Srijan</span>
-                <span className="text-slate-700">Estate</span>
-              </h1>
+              <Box>
+                <Heading
+                  fontSize={{ base: "xl", md: "3xl" }}
+                  style={{ color: "#ffffff" }}
+                >
+                  Srijan
+                  <span style={{ color: "#808080" }}>Estate</span>
+                </Heading>
+              </Box>
             </Link>
 
             {/* left side */}
 
             {isAboveMediumScreens ? (
               <div className={`${flexBetween} w-full`}>
-                <ul className={`${flexBetween} gap-8 text-sm`}>
+                <div className={`${flexBetween} gap-8 text-sm`}>
                   <Link to="/">
-                    <li className="hover:underline">Home</li>
+                    <Text fontSize="xl" color={"white"}>
+                      Home
+                    </Text>
                   </Link>
                   <Link to="/about">
-                    <li className="hover:underline">About</li>
+                    <Text fontSize="xl" color={"white"}>
+                      About
+                    </Text>
                   </Link>
-                </ul>
+                </div>
 
                 {/* search bar in the middle */}
 
-                <form className="relative ml-4">
-                  <input
+                <InputGroup size="lg" width={{ xl: "570px", md: "400px" }}>
+                  <InputRightElement pointerEvents="none">
+                    <SearchIcon color="#808080" size="1.5rem" />
+                  </InputRightElement>
+                  <Input
                     type="text"
-                    placeholder="Search..."
-                    className="p-2 bg-transparent rounded-lg border-2 border-black pr-8 focus:outline-none sm:w-96 md:w-96 lg:w-[600px]"
+                    placeholder="Search for estates..."
+                    borderRadius="1rem"
+                    borderColor="#ffffff"
+                    borderWidth="2px"
+                    _placeholder={{ color: "#808080" }}
+                    color="#d1d5db"
                   />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <MagnifyingGlassIcon className="h-6 w-6 text-gray-700" />
-                  </div>
-                </form>
+                </InputGroup>
 
                 {/* right side */}
 
-                <ul className={`${flexBetween} gap-8`}>
+                <div className={`${flexBetween} gap-8`}>
                   <Link to="/sign-in">
-                    <li className="hover:underline">Sign In</li>
+                    <Text fontSize="xl" color={"white"}>
+                      Sign In
+                    </Text>
                   </Link>
                   <Link to="/profile">
-                    <li className="hover:underline">profile</li>
+                    <Text fontSize="xl" color={"white"}>
+                      Profile
+                    </Text>
                   </Link>
-                </ul>
+                </div>
               </div>
             ) : (
-              <button
-                className="rounded-full p-2"
-                onClick={() => setIsMenuToggled(!isMenuToggled)}
-              >
-                <Bars3Icon className="h-6 w-6 text-black" />
-              </button>
+              <div className="">
+                <HamburgerIcon w={8} h={8} color="white" onClick={onOpen} />
+                <Drawer
+                  isOpen={isOpen}
+                  placement="right"
+                  initialFocusRef={firstField}
+                  onClose={onClose}
+                >
+                  <DrawerOverlay />
+                  <DrawerContent
+                    bg={"transparent"}
+                    backdropFilter={"blur(10px)"}
+                    // borderLeft="1px solid #ccc"
+                  >
+                    <DrawerCloseButton w={8} h={8} color="white" />
+                    <DrawerHeader borderBottomWidth="2px">
+                      <Link to="/">
+                        <Heading
+                          fontSize={{ base: "xl", md: "3xl" }}
+                          style={{ color: "#ffffff" }}
+                        >
+                          Srijan
+                          <span style={{ color: "#808080" }}>Estate</span>
+                        </Heading>
+                      </Link>
+                    </DrawerHeader>
+
+                    <DrawerBody py="20px">
+                      <Stack spacing="24px">
+                        <InputGroup size="lg" width={{ base: "270px" }}>
+                          <InputRightElement pointerEvents="none">
+                            <SearchIcon color="#808080" size="1.5rem" />
+                          </InputRightElement>
+                          <Input
+                            type="text"
+                            placeholder="Search for estates..."
+                            borderRadius="1rem"
+                            borderColor="#ffffff"
+                            borderWidth="2px"
+                            _placeholder={{ color: "#808080" }}
+                            color="#d1d5db"
+                          />
+                        </InputGroup>
+
+                        <Link to="/">
+                          <Button bg="#808080" w={270}>
+                            Home
+                          </Button>
+                        </Link>
+
+                        <Link to="/about">
+                          <Button bg="#808080" w={270}>
+                            About
+                          </Button>
+                        </Link>
+
+                        <Link to="/sign-in">
+                          <Button bg="#808080" w={270}>
+                            Sign In
+                          </Button>
+                        </Link>
+                      </Stack>
+                    </DrawerBody>
+                  </DrawerContent>
+                </Drawer>
+              </div>
             )}
           </div>
         </div>
-      </div>
+      </Box>
 
       {/* MOBILE MENU MODAL */}
-      {!isAboveMediumScreens && isMenuToggled && (
-        <div className="fixed bottom-0 right-0 z-40 h-full w-[300px] bg-gray-200 drop-shadow-xl">
-          {/* CLOSE ICON */}
-          <div className="flex justify-end p-12">
-            <button onClick={() => setIsMenuToggled(!isMenuToggled)}>
-              <XMarkIcon className="h-6 w-6 text-black" />
-            </button>
-          </div>
-
-          {/* MENU ITEMS */}
-          <ul className="ml-[15%] flex flex-col gap-10 text-2xl">
-            {/* search bar */}
-            <form className="relative ml-[-10rem]">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="p-2 bg-transparent rounded-lg border-2 border-black pr-8 focus:outline-none w-[255px] ml-[153px]"
-              />
-              <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <MagnifyingGlassIcon className="h-6 w-6 text-gray-700" />
-              </div>
-            </form>
-
-            {/* link tags */}
-
-            <Link to="/">
-              <li className="hover:underline">home</li>
-            </Link>
-            <Link to="/about">
-              <li className="hover:underline">about</li>
-            </Link>
-            <Link to="/sign-in">
-              <li className="hover:underline">Sign In</li>
-            </Link>
-            <Link to="/profile">
-              <li className="hover:underline">profile</li>
-            </Link>
-          </ul>
-        </div>
-      )}
     </nav>
   );
 };

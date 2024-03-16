@@ -7,10 +7,11 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
 import { ChakraProvider } from "@chakra-ui/react";
+import theme from "../theme";
 
 const App = () => {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Navbar />
         <Routes>

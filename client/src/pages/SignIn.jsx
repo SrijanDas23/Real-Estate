@@ -27,6 +27,32 @@ import { Link } from "react-router-dom";
 
 const SignIn = () => {
   const [show, setShow] = useState(false);
+
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch("/api/auth/signup", formData);
+  };
+
+  const disabled =
+    formData.email === "" ||
+    formData.username === "" ||
+    formData.password === "";
+
+  // console.log(formData);
   return (
     <Box
       background={`url(${signIn4})`}
@@ -55,16 +81,30 @@ const SignIn = () => {
                 autoComplete="off"
                 type="email"
                 id="email"
-                placeholder="Enter email"
+                placeholder="Enter Email"
+                onChange={handleChange}
               />
             </FormControl>
+
+            <FormControl>
+              <FormLabel>Username</FormLabel>
+              <Input
+                autoComplete="off"
+                type="text"
+                id="username"
+                placeholder="Enter Username"
+                onChange={handleChange}
+              />
+            </FormControl>
+
             <FormControl>
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
                   type={show ? "text" : "password"}
-                  placeholder="Enter password"
+                  placeholder="Enter Password"
                   id="password"
+                  onChange={handleChange}
                 />
                 <InputRightElement>
                   <Box as="button" size="sm" onClick={() => setShow(!show)}>
@@ -73,9 +113,11 @@ const SignIn = () => {
                 </InputRightElement>
               </InputGroup>
             </FormControl>
-            <Button bg="#808080" type="submit" mt="2">
+
+            <Button bg="#808080" type="submit" mt="2" isDisabled={disabled}>
               Login
             </Button>
+
             <Button
               colorScheme="red"
               bg="#808080"

@@ -105,9 +105,9 @@ const Navbar = () => {
                       Sign In
                     </Text>
                   </Link>
-                  <Link to="/profile">
+                  <Link to="/sign-up">
                     <Text fontSize="xl" color={"white"}>
-                      Profile
+                      Sign Up
                     </Text>
                   </Link>
                 </div>

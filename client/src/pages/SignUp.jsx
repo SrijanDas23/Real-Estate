@@ -98,7 +98,7 @@ const SignUp = () => {
           backdropFilter="blur(3px)"
         >
           <Heading fontFamily="DM Sans" color="#fff" mb="2">
-            Login to Real<span style={{ color: "#b7b7b7" }}>Estate</span>
+            Welcome to Real<span style={{ color: "#b7b7b7" }}>Estate</span>
           </Heading>
           <Flex direction="column" gap="6" color="#fff" fontFamily="DM Sans">
             <FormControl>

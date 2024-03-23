@@ -57,7 +57,7 @@ const Navbar = () => {
                   fontSize={{ base: "xl", md: "3xl" }}
                   style={{ color: "#ffffff" }}
                 >
-                  Srijan
+                  Real
                   <span style={{ color: "#808080" }}>Estate</span>
                 </Heading>
               </Box>
@@ -124,7 +124,7 @@ const Navbar = () => {
                   <DrawerOverlay />
                   <DrawerContent
                     bg={"transparent"}
-                    backdropFilter={"blur(10px)"}
+                    backdropFilter={"blur(5px)"}
                     // borderLeft="1px solid #ccc"
                   >
                     <DrawerCloseButton w={8} h={8} color="white" />
@@ -134,7 +134,7 @@ const Navbar = () => {
                           fontSize={{ base: "xl", md: "3xl" }}
                           style={{ color: "#ffffff" }}
                         >
-                          Srijan
+                          Real
                           <span style={{ color: "#808080" }}>Estate</span>
                         </Heading>
                       </Link>
@@ -158,19 +158,19 @@ const Navbar = () => {
                         </InputGroup>
 
                         <Link to="/">
-                          <Button bg="#808080" w={270}>
+                          <Button bg="#808080" w={270} onClick={onClose}>
                             Home
                           </Button>
                         </Link>
 
                         <Link to="/about">
-                          <Button bg="#808080" w={270}>
+                          <Button bg="#808080" w={270} onClick={onClose}>
                             About
                           </Button>
                         </Link>
 
                         <Link to="/sign-in">
-                          <Button bg="#808080" w={270}>
+                          <Button bg="#808080" w={270} onClick={onClose}>
                             Sign In
                           </Button>
                         </Link>

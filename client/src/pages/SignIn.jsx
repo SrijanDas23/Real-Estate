@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
   Container,
@@ -23,10 +26,21 @@ import signIn3 from "../assets/signIn3.jpg";
 import signIn4 from "../assets/signIn4.jpg";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 const SignIn = () => {
   const [show, setShow] = useState(false);
+  const {loading, error} = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -43,14 +57,30 @@ const SignIn = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await fetch("/api/auth/signup", formData);
+    try {
+      dispatch(signInStart());
+      e.preventDefault();
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+        return;
+      }
+      dispatch(signInSuccess(data));
+      navigate("/");
+      // console.log(data);
+    } catch (error) {
+      dispatch(signInFailure(error.message));
+    }
   };
 
-  const disabled =
-    formData.email === "" ||
-    formData.username === "" ||
-    formData.password === "";
+  const disabled = formData.email === "" || formData.password === "";
 
   // console.log(formData);
   return (
@@ -72,8 +102,9 @@ const SignIn = () => {
           backdropFilter="blur(3px)"
         >
           <Heading fontFamily="DM Sans" color="#fff" mb="2">
-            Login to Real<span style={{ color: "#b7b7b7" }}>Estate</span>
+            Sign In to Real<span style={{ color: "#b7b7b7" }}>Estate</span>
           </Heading>
+
           <Flex direction="column" gap="6" color="#fff" fontFamily="DM Sans">
             <FormControl>
               <FormLabel>Email</FormLabel>
@@ -82,17 +113,6 @@ const SignIn = () => {
                 type="email"
                 id="email"
                 placeholder="Enter Email"
-                onChange={handleChange}
-              />
-            </FormControl>
-
-            <FormControl>
-              <FormLabel>Username</FormLabel>
-              <Input
-                autoComplete="off"
-                type="text"
-                id="username"
-                placeholder="Enter Username"
                 onChange={handleChange}
               />
             </FormControl>
@@ -114,8 +134,15 @@ const SignIn = () => {
               </InputGroup>
             </FormControl>
 
-            <Button bg="#808080" type="submit" mt="2" isDisabled={disabled}>
-              Login
+            <Button
+              bg="#808080"
+              type="submit"
+              mt="2"
+              isDisabled={disabled}
+              onClick={handleSubmit}
+              isLoading={loading}
+            >
+              Sign In
             </Button>
 
             <Button
@@ -128,7 +155,7 @@ const SignIn = () => {
             </Button>
           </Flex>
           <Flex color="#fff" gap="3">
-            <Text fontFamily="DM Sans">Don't have an account?</Text>
+            <Text fontFamily="DM Sans">Dont have an account?</Text>
             <Link to="/sign-up">
               <Text
                 fontWeight="bold"
@@ -139,6 +166,17 @@ const SignIn = () => {
               </Text>
             </Link>
           </Flex>
+          {error && (
+            <Alert
+              status="error"
+              variant="solid"
+              display="flex"
+              justifyContent="center"
+            >
+              <AlertIcon />
+              <AlertTitle>{error}</AlertTitle>
+            </Alert>
+          )}
         </Flex>
       </Container>
     </Box>

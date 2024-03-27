@@ -16,6 +16,10 @@ import {
   Spinner,
   Text,
   useToast,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  CloseButton,
 } from "@chakra-ui/react";
 import signIn1 from "../assets/signIn1.jpeg";
 import signIn2 from "../assets/signIn2.jpg";
@@ -148,7 +152,7 @@ const SignUp = () => {
               onClick={handleSubmit}
               isLoading={loading}
             >
-              Login
+              Sign Up
             </Button>
 
             <Button
@@ -162,7 +166,7 @@ const SignUp = () => {
           </Flex>
           <Flex color="#fff" gap="3">
             <Text fontFamily="DM Sans">Already have an account?</Text>
-            <Link to="/sign-up">
+            <Link to="/sign-in">
               <Text
                 fontWeight="bold"
                 fontFamily="DM Sans"
@@ -172,6 +176,17 @@ const SignUp = () => {
               </Text>
             </Link>
           </Flex>
+          {error && (
+            <Alert
+              status="error"
+              variant="solid"
+              display="flex"
+              justifyContent="center"
+            >
+              <AlertIcon />
+              <AlertTitle>{error}</AlertTitle>
+            </Alert>
+          )}
         </Flex>
       </Container>
     </Box>

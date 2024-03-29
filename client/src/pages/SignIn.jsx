@@ -33,10 +33,13 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import OAuth from "../components/OAuth";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { app } from "../firebase";
 
 const SignIn = () => {
   const [show, setShow] = useState(false);
-  const {loading, error} = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
 
@@ -77,6 +80,30 @@ const SignIn = () => {
       // console.log(data);
     } catch (error) {
       dispatch(signInFailure(error.message));
+    }
+  };
+
+  const handleGoogleClick = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth(app);
+      const result = await signInWithPopup(auth, provider);
+      const res = await fetch("/api/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: result.user.displayName,
+          email: result.user.email,
+          photo: result.user.photoURL,
+        }),
+      });
+      const data = await res.json();
+      dispatch(signInSuccess(data));
+      navigate("/");
+    } catch (error) {
+      console.log("couldnt fetch google details", error);
     }
   };
 
@@ -150,9 +177,11 @@ const SignIn = () => {
               bg="#808080"
               mt="2"
               leftIcon={<FaGoogle />}
+              onClick={handleGoogleClick}
             >
               Continue with Google
             </Button>
+            <OAuth />
           </Flex>
           <Flex color="#fff" gap="3">
             <Text fontFamily="DM Sans">Dont have an account?</Text>

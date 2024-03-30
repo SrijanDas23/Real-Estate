@@ -8,17 +8,12 @@ import {
   Container,
   Flex,
   FormControl,
-  FormHelperText,
   FormLabel,
-  Grid,
-  GridItem,
   Heading,
   Input,
   InputGroup,
   InputRightElement,
-  Spinner,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 import signIn1 from "../assets/signIn1.jpeg";
 import signIn2 from "../assets/signIn2.jpg";
@@ -33,7 +28,6 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
-import OAuth from "../components/OAuth";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 
@@ -88,6 +82,7 @@ const SignIn = () => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
+      // console.log(result);
       const res = await fetch("/api/auth/google", {
         method: "POST",
         headers: {
@@ -181,7 +176,6 @@ const SignIn = () => {
             >
               Continue with Google
             </Button>
-            <OAuth />
           </Flex>
           <Flex color="#fff" gap="3">
             <Text fontFamily="DM Sans">Dont have an account?</Text>

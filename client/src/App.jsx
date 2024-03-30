@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import Navbar from "./components/Navbar";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../theme";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   return (
@@ -18,8 +19,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/about" eleent={<About />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

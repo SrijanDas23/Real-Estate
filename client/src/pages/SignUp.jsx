@@ -5,21 +5,15 @@ import {
   Container,
   Flex,
   FormControl,
-  FormHelperText,
   FormLabel,
-  Grid,
-  GridItem,
   Heading,
   Input,
   InputGroup,
   InputRightElement,
-  Spinner,
   Text,
-  useToast,
   Alert,
   AlertIcon,
   AlertTitle,
-  CloseButton,
 } from "@chakra-ui/react";
 import signIn1 from "../assets/signIn1.jpeg";
 import signIn2 from "../assets/signIn2.jpg";
@@ -31,11 +25,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 import { useDispatch } from "react-redux";
-import {
-  signInStart,
-  signInSuccess,
-  signInFailure,
-} from "../redux/user/userSlice";
+import { signInSuccess } from "../redux/user/userSlice";
 
 const SignUp = () => {
   const [show, setShow] = useState(false);
@@ -43,7 +33,7 @@ const SignUp = () => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",

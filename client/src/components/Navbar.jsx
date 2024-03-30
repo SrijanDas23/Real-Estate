@@ -15,6 +15,7 @@ import {
   Box,
   Flex,
   Text,
+  Avatar,
 } from "@chakra-ui/react";
 import {
   Drawer,
@@ -25,16 +26,20 @@ import {
   DrawerCloseButton,
   Button,
   Heading,
+  Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, SearchIcon } from "@chakra-ui/icons";
 import { Stack } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const flexBetween = "flex items-center justify-between";
-  const [isMenuToggled, setIsMenuToggled] = useState(false);
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
+
+  const { currentUser } = useSelector((state) => state.user);
+  // console.log(currentUser);
 
   return (
     <nav>
@@ -99,21 +104,32 @@ const Navbar = () => {
 
                 {/* right side */}
 
-                <div className={`${flexBetween} gap-8`}>
-                  <Link to="/sign-in">
-                    <Text fontSize="xl" color={"white"}>
-                      Sign In
-                    </Text>
+                {currentUser ? (
+                  <Link to="/profile">
+                    <Avatar
+                      name={currentUser.username}
+                      src={currentUser.avatar}
+                      bg="black"
+                      size="md"
+                    />
                   </Link>
-                  <Link to="/sign-up">
-                    <Text fontSize="xl" color={"white"}>
-                      Sign Up
-                    </Text>
-                  </Link>
-                </div>
+                ) : (
+                  <div className={`${flexBetween} gap-8`}>
+                    <Link to="/sign-in">
+                      <Text fontSize="xl" color={"white"}>
+                        Sign In
+                      </Text>
+                    </Link>
+                    <Link to="/sign-up">
+                      <Text fontSize="xl" color={"white"}>
+                        Sign Up
+                      </Text>
+                    </Link>
+                  </div>
+                )}
               </div>
             ) : (
-              <div className="">
+              <Box>
                 <HamburgerIcon w={8} h={8} color="white" onClick={onOpen} />
                 <Drawer
                   isOpen={isOpen}
@@ -169,16 +185,24 @@ const Navbar = () => {
                           </Button>
                         </Link>
 
-                        <Link to="/sign-in">
-                          <Button bg="#808080" w={270} onClick={onClose}>
-                            Sign In
-                          </Button>
-                        </Link>
+                        {!currentUser ? (
+                          <Link to="/sign-in">
+                            <Button bg="#808080" w={270} onClick={onClose}>
+                              Sign In
+                            </Button>
+                          </Link>
+                        ) : (
+                          <Link to="/profile">
+                            <Button bg="#808080" w={270} onClick={onClose}>
+                              Profile
+                            </Button>
+                          </Link>
+                        )}
                       </Stack>
                     </DrawerBody>
                   </DrawerContent>
                 </Drawer>
-              </div>
+              </Box>
             )}
           </div>
         </div>

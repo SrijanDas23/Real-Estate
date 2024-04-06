@@ -35,6 +35,10 @@ import {
 import { app } from "../firebase";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  signOutUserStart,
   updateUserFailure,
   updateUserStart,
   updateUserSuccess,
@@ -111,6 +115,38 @@ const Profile = () => {
       setUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch("/api/auth/signout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(data.message));
     }
   };
 
@@ -244,9 +280,11 @@ const Profile = () => {
                 width={{ xl: "570px", md: "400px", base: "300px" }}
               >
                 <ModalHeader color="white">Delete Account</ModalHeader>
-                <ModalCloseButton color="white"/>
+                <ModalCloseButton color="white" />
                 <ModalBody>
-                  <Text color="white">Are you sure that you want to delete?</Text>
+                  <Text color="white">
+                    Are you sure that you want to delete?
+                  </Text>
                 </ModalBody>
 
                 <ModalFooter>
@@ -255,14 +293,16 @@ const Profile = () => {
                       No
                     </Button>
                     <Spacer />
-                    <Button colorScheme="red">Yes</Button>
+                    <Button colorScheme="red" onClick={handleDeleteUser}>
+                      Yes
+                    </Button>
                   </Flex>
                 </ModalFooter>
               </ModalContent>
             </Modal>
 
             <Spacer />
-            <Button colorScheme="red" bg="#808080" mt="2">
+            <Button colorScheme="red" bg="#808080" mt="2" onClick={handleSignOut}>
               Sign Out
             </Button>
           </Flex>

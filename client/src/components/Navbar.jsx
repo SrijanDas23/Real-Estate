@@ -54,7 +54,7 @@ const Navbar = () => {
         bg="transparent"
       >
         <div className={`${flexBetween} mx-auto w-5/6`}>
-          <div className={`flex w-full md:gap-16 xs:gap-3 smd:${flexBetween}`}>
+          <div className={`flex w-full md:gap-6 lg:gap-14 smd:${flexBetween}`}>
             {/* icon*/}
             <Link to="/">
               <Box>
@@ -73,11 +73,11 @@ const Navbar = () => {
             {isAboveMediumScreens ? (
               <div className={`${flexBetween} w-full`}>
                 <div className={`${flexBetween} gap-8 text-sm`}>
-                  <Link to="/">
+                  {/* <Link to="/">
                     <Text fontSize="xl" color={"white"}>
                       Home
                     </Text>
-                  </Link>
+                  </Link> */}
                   <Link to="/about">
                     <Text fontSize="xl" color={"white"}>
                       About
@@ -87,7 +87,11 @@ const Navbar = () => {
 
                 {/* search bar in the middle */}
 
-                <InputGroup size="lg" width={{ xl: "570px", md: "400px" }}>
+                <InputGroup
+                  size="lg"
+                  width={{ xl: "570px", md: "370px" }}
+                  ml="-12rem"
+                >
                   <InputRightElement pointerEvents="none">
                     <SearchIcon color="#808080" size="1.5rem" />
                   </InputRightElement>
@@ -109,7 +113,7 @@ const Navbar = () => {
                     <Avatar
                       name={currentUser.username}
                       src={currentUser.avatar}
-                      bg="black"
+                      // bg="black"
                       size="md"
                     />
                   </Link>

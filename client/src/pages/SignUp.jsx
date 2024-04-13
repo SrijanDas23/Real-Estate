@@ -14,6 +14,7 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
+  useToast
 } from "@chakra-ui/react";
 import signIn1 from "../assets/signIn1.jpeg";
 import signIn2 from "../assets/signIn2.jpg";
@@ -34,6 +35,7 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -64,15 +66,36 @@ const SignUp = () => {
       if (data.success === false) {
         setError(data.message);
         setLoading(false);
+        toast({
+          title: `${data.message}`,
+          position: "bottom-left",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
         return;
       }
       setLoading(false);
       setError(null);
+      toast({
+        title: "User Created Successfully!",
+        position: "bottom-left",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
       navigate("/sign-in");
       // console.log(data);
     } catch (error) {
       setLoading(false);
       setError(error.message);
+      toast({
+        title: `${data.message}`,
+        position: "bottom-left",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
@@ -94,9 +117,23 @@ const SignUp = () => {
       });
       const data = await res.json();
       dispatch(signInSuccess(data));
+      toast({
+        title: "User Logged In Successfully!",
+        position: "bottom-left",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
       navigate("/");
     } catch (error) {
       console.log("couldnt fetch google details", error);
+      toast({
+        title: `${data.message}`,
+        position: "bottom-left",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
@@ -200,17 +237,6 @@ const SignUp = () => {
               </Text>
             </Link>
           </Flex>
-          {error && (
-            <Alert
-              status="error"
-              variant="solid"
-              display="flex"
-              justifyContent="center"
-            >
-              <AlertIcon />
-              <AlertTitle>{error}</AlertTitle>
-            </Alert>
-          )}
         </Flex>
       </Container>
     </Box>

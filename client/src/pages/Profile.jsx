@@ -1,5 +1,4 @@
 import {
-  Alert,
   Avatar,
   Box,
   Button,
@@ -7,22 +6,12 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   InputGroup,
   InputRightElement,
   Spacer,
   Text,
-  AlertIcon,
-  AlertTitle,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -33,7 +22,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   deleteUserFailure,
   deleteUserStart,
@@ -44,6 +33,8 @@ import {
   updateUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import DeleteModal from "../components/DeleteModal";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -55,7 +46,7 @@ const Profile = () => {
   const [show, setShow] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
   // console.log(formData);
   // console.log(filePerc);
   // console.log(fileUploadError);
@@ -108,13 +99,33 @@ const Profile = () => {
       const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
+        toast({
+          title: `${error}`,
+          position: "bottom-left",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
         return;
       }
-
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
+      toast({
+        title: "User Updated Successfully!",
+        position: "bottom-left",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+      toast({
+        title: `${error}`,
+        position: "bottom-left",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
@@ -127,11 +138,32 @@ const Profile = () => {
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
+        toast({
+          title: `${error}`,
+          position: "bottom-left",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
         return;
       }
       dispatch(deleteUserSuccess(data));
+      toast({
+        title: "User Deleted Successfully!",
+        position: "bottom-left",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+      toast({
+        title: `${error}`,
+        position: "bottom-left",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
@@ -142,11 +174,32 @@ const Profile = () => {
       const data = await res.json();
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
+        toast({
+          title: `${error}`,
+          status: "error",
+          position: "bottom-left",
+          duration: 9000,
+          isClosable: true,
+        });
         return;
       }
       dispatch(deleteUserSuccess(data));
+      toast({
+        title: "User Signed Out Successfully!",
+        status: "success",
+        duration: 9000,
+        position: "bottom-left",
+        isClosable: true,
+      });
     } catch (error) {
       dispatch(deleteUserFailure(data.message));
+      toast({
+        title: `${error}`,
+        status: "error",
+        position: "bottom-left",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
@@ -179,6 +232,7 @@ const Profile = () => {
             // bg="black"
             size="xl"
             mb="2"
+            mt="4"
             onClick={() => fileRef.current.click()}
           />
           <Text>
@@ -225,6 +279,7 @@ const Profile = () => {
                   defaultValue={currentUser.username}
                   id="username"
                   variant="flushed"
+                  autoComplete="off"
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -237,6 +292,7 @@ const Profile = () => {
                   placeholder="Enter Password"
                   id="password"
                   variant="flushed"
+                  autoComplete="off"
                   type={show ? "text" : "password"}
                   onChange={handleChange}
                 />
@@ -258,78 +314,31 @@ const Profile = () => {
               Change Credentials
             </Button>
 
-            <Button colorScheme="blue" bg="#808080" mt="2">
-              Create Listing
-            </Button>
+            <Link to={"/create-listing"}>
+              <Button colorScheme="blue" bg="#808080" mt="2" w="100%">
+                Create Listing
+              </Button>
+            </Link>
           </Flex>
           <Flex
             direction="row"
             width={{ xl: "570px", md: "400px", base: "300px" }}
           >
-            <Button colorScheme="red" mt="2" onClick={onOpen}>
-              Delete Account
-            </Button>
-
-            <Modal isOpen={isOpen} onClose={onClose} isCentered>
-              <ModalOverlay
-                backdropFilter="blur(10px) hue-rotate(90deg)"
-                bg="blackAlpha.300"
-              />
-              <ModalContent
-                bg="black"
-                width={{ xl: "570px", md: "400px", base: "300px" }}
-              >
-                <ModalHeader color="white">Delete Account</ModalHeader>
-                <ModalCloseButton color="white" />
-                <ModalBody>
-                  <Text color="white">
-                    Are you sure that you want to delete?
-                  </Text>
-                </ModalBody>
-
-                <ModalFooter>
-                  <Flex direction="row" w="100%">
-                    <Button colorScheme="green" mr={3} onClick={onClose}>
-                      No
-                    </Button>
-                    <Spacer />
-                    <Button colorScheme="red" onClick={handleDeleteUser}>
-                      Yes
-                    </Button>
-                  </Flex>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
+            <DeleteModal
+              handleDeleteUser={handleDeleteUser}
+              deleteText="Delete Account"
+            />
 
             <Spacer />
-            <Button colorScheme="red" bg="#808080" mt="2" onClick={handleSignOut}>
+            <Button
+              colorScheme="red"
+              bg="#808080"
+              mt="2"
+              onClick={handleSignOut}
+            >
               Sign Out
             </Button>
           </Flex>
-          {error && (
-            <Alert
-              status="error"
-              variant="solid"
-              display="flex"
-              justifyContent="center"
-              mb="-10"
-            >
-              <AlertIcon />
-              <AlertTitle>{error}</AlertTitle>
-            </Alert>
-          )}
-          {updateSuccess && (
-            <Alert
-              status="error"
-              variant="solid"
-              display="flex"
-              justifyContent="center"
-              mb="-10"
-              bg="green"
-            >
-              <AlertTitle>User Updated Successfully!</AlertTitle>
-            </Alert>
-          )}
         </Flex>
       </Container>
     </Box>

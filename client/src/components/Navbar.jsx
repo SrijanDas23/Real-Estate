@@ -40,7 +40,9 @@ const Navbar = () => {
   }, []);
 
   const location = useLocation();
-  const hideNavbar = location.pathname.includes("/create-listing");
+  const hideNavbar =
+    location.pathname.includes("/create-listing") ||
+    location.pathname.includes("/edit-listing");
 
   if (hideNavbar) {
     return null;
@@ -55,7 +57,11 @@ const Navbar = () => {
       left="0"
       right="0"
       zIndex="999"
-      bg="transparent"
+      bg={
+        isBlurred
+          ? "transparent"
+          : "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0))"
+      }
       backdropFilter={isBlurred ? "" : "blur(3px)"}
       as="nav"
     >

@@ -12,6 +12,7 @@ import {
   Spacer,
   Text,
   useToast,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -22,7 +23,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
-import { ViewIcon, ViewOffIcon, DeleteIcon } from "@chakra-ui/icons";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
   deleteUserFailure,
   deleteUserStart,
@@ -35,6 +36,7 @@ import {
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal";
+import ShowListingSidebar from "../components/ShowListingSidebar";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -45,11 +47,15 @@ const Profile = () => {
   const [formData, setFormData] = useState({});
   const [show, setShow] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
   const toast = useToast();
   // console.log(formData);
   // console.log(filePerc);
   // console.log(fileUploadError);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const firstField = React.useRef();
 
   useEffect(() => {
     if (file) {
@@ -203,6 +209,66 @@ const Profile = () => {
     }
   };
 
+  const handleShowListings = async (limit) => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(
+        `/api/user/listings/${currentUser._id}?limit=${limit}`
+      );
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError(true);
+        return;
+      }
+
+      setUserListings(data);
+      onOpen();
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  };
+
+
+  const handleListingDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        toast({
+          title: `${data.message}`,
+          status: "error",
+          position: "bottom-left",
+          duration: 9000,
+          isClosable: true,
+        });
+        return;
+      }
+
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+      toast({
+        title: "Listing Deleted Successfully!",
+        status: "success",
+        duration: 9000,
+        position: "bottom-left",
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error.message);
+      toast({
+        title: `${error.message}`,
+        status: "error",
+        position: "bottom-left",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <Box
       bgRepeat="no-repeat"
@@ -232,7 +298,7 @@ const Profile = () => {
             // bg="black"
             size="xl"
             mb="2"
-            mt="4"
+            mt="10"
             onClick={() => fileRef.current.click()}
           />
           <Text>
@@ -307,15 +373,24 @@ const Profile = () => {
             <Button
               bg="#808080"
               type="submit"
-              mt="2"
               onClick={handleSubmit}
               isLoading={loading}
             >
               Change Credentials
             </Button>
 
+            <ShowListingSidebar
+              handleListingDelete={handleListingDelete}
+              handleShowListings={handleShowListings}
+              userListings={userListings}
+              onOpen={onOpen}
+              onClose={onClose}
+              isOpen={isOpen}
+              firstField={firstField}
+            />
+
             <Link to={"/create-listing"}>
-              <Button colorScheme="blue" bg="#808080" mt="2" w="100%">
+              <Button colorScheme="blue" bg="#808080" w="100%">
                 Create Listing
               </Button>
             </Link>

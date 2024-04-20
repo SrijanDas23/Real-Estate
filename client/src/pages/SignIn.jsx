@@ -143,7 +143,7 @@ const SignIn = () => {
   // console.log(formData);
   return (
     <Box
-      background={`url(${signIn4})`}
+      background={`linear-gradient(rgba(1,1,1,1), rgba(0,0,0,0)), url(${signIn4})`}
       bgRepeat="no-repeat"
       bgSize="cover"
       bgPosition="center"

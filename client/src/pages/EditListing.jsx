@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 
 import {
@@ -9,11 +9,11 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import ListingFormBody from "../components/ListingFormBody";
 
-const CreateListing = () => {
+const EditListing = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
@@ -36,13 +36,29 @@ const CreateListing = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const params = useParams();
   const disabled =
     formData.name === "" ||
     formData.address === "" ||
     formData.description === "";
-  console.log(formData);
+  // console.log(formData);
 
   // console.log(files);
+  useEffect(() => {
+    const fetchListing = async () => {
+      const listingId = params.listingId;
+      //   console.log(listingId);
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+    };
+
+    fetchListing();
+  }, []);
 
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -177,7 +193,7 @@ const CreateListing = () => {
 
       setLoading(true);
       setError(false);
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -201,7 +217,7 @@ const CreateListing = () => {
         return;
       }
       toast({
-        title: "Listing Created Successfully!",
+        title: "Listing Edited Successfully!",
         position: "bottom-left",
         status: "success",
         duration: 9000,
@@ -234,9 +250,9 @@ const CreateListing = () => {
       uploading={uploading}
       setFiles={setFiles}
       files={files}
-      name="Create"
+      name="Edit"
     />
   );
 };
 
-export default CreateListing;
+export default EditListing;

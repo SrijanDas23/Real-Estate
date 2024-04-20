@@ -10,6 +10,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../theme";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateListing from "./pages/CreateListing";
+import EditListing from "./pages/EditListing";
+import Listing from "./pages/Listing";
 
 const App = () => {
   return (
@@ -21,9 +23,11 @@ const App = () => {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/about" eleent={<About />} />
+          <Route path="/listing/:listingId" element={<Listing />} />
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-listing" element={<CreateListing />} />
+            <Route path="/edit-listing/:listingId" element={<EditListing />} />
           </Route>
         </Routes>
       </BrowserRouter>

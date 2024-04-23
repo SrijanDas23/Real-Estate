@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useMediaQuery from "../hooks/useMediaQuery";
-import {
-  Input,
-  InputGroup,
-  InputRightElement,
-  Box,
-  Text,
-  Avatar,
-} from "@chakra-ui/react";
+import { Box, Text, Avatar } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
 
 import { useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const flexBetween = "flex items-center justify-between";
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
   const [isBlurred, setisBlurred] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { currentUser } = useSelector((state) => state.user);
+
+  const navigate = useNavigate();
   // console.log(currentUser);
 
   useEffect(() => {
@@ -40,6 +36,25 @@ const Navbar = () => {
   }, []);
 
   const location = useLocation();
+
+  const isSearchPage = location.pathname === "/search";
+
+  const handleSubmit = (e) => {
+    // e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
   const hideNavbar =
     location.pathname.includes("/create-listing") ||
     location.pathname.includes("/edit-listing");
@@ -82,7 +97,7 @@ const Navbar = () => {
 
           {/* left side */}
 
-          {isAboveMediumScreens ? (
+          {isAboveMediumScreens && !isSearchPage ? (
             <div className={`${flexBetween} w-full`}>
               <div className={`${flexBetween} gap-8 text-sm`}>
                 <Link to="/about">
@@ -94,24 +109,13 @@ const Navbar = () => {
 
               {/* search bar in the middle */}
 
-              <InputGroup
-                size="lg"
+              <SearchBar
                 width={{ xl: "570px", md: "370px" }}
                 ml="-12rem"
-              >
-                <InputRightElement pointerEvents="none">
-                  <SearchIcon color="#808080" size="1.5rem" />
-                </InputRightElement>
-                <Input
-                  type="text"
-                  placeholder="Search for estates..."
-                  borderRadius="1rem"
-                  borderColor="#ffffff"
-                  borderWidth="2px"
-                  _placeholder={{ color: "#808080" }}
-                  color="#d1d5db"
-                />
-              </InputGroup>
+                searchTerm={searchTerm}
+                setSearchTerm={setSearchTerm}
+                handleSubmit={handleSubmit}
+              />
 
               {/* right side */}
 
@@ -140,7 +144,11 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <Sidebar />
+            <Sidebar
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              handleSubmit={handleSubmit}
+            />
           )}
         </div>
       </div>

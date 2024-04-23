@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
@@ -21,7 +22,9 @@ const ListingDeleteModal = ({ handleListingDelete, deleteText, _id }) => {
       {/* <Button colorScheme="red" mt="2" onClick={onOpen}>
         {deleteText}
       </Button> */}
-      <DeleteIcon color="red" cursor="pointer" onClick={onOpen} />
+      <Tooltip label="Delete Listing" placement="top" hasArrow>
+        <DeleteIcon color="red" cursor="pointer" onClick={onOpen} />
+      </Tooltip>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay
           backdropFilter="blur(10px) hue-rotate(90deg)"

@@ -43,7 +43,7 @@ export const createListingSchema = z.object({
 
   parking: z.boolean(),
 
-  type: z.enum(["rent", "sell"], { message: "Invalid type" }),
+  type: z.enum(["rent", "sale"], { message: "Invalid type" }),
 
   offer: z.boolean(),
 

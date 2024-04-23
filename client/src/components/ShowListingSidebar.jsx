@@ -12,6 +12,7 @@ import {
   Stack,
   Heading,
   Image,
+  Tooltip,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -127,7 +128,9 @@ const ShowListingSidebar = ({
                           deleteText="Listing Delete"
                         />
                         <Link to={`/edit-listing/${listing._id}`}>
-                          <EditIcon color="white" cursor="pointer" />
+                          <Tooltip label="Edit Listing" hasArrow>
+                            <EditIcon color="white" cursor="pointer" />
+                          </Tooltip>
                         </Link>
                       </Box>
                     </Box>

@@ -17,6 +17,7 @@ const CreateListing = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
+  const [imageUpload, setImageUpload] = useState(0);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: "",
@@ -36,15 +37,18 @@ const CreateListing = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  let totalImages = 0;
+  let uploadedImages = 0;
   const disabled =
     formData.name === "" ||
     formData.address === "" ||
     formData.description === "";
-  console.log(formData);
+  // console.log(formData);
 
   // console.log(files);
 
   const handleImageSubmit = (e) => {
+    totalImages = files.length;
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
       setImageUploadError(false);
@@ -97,12 +101,18 @@ const CreateListing = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
+          // console.log(`Upload is ${progress}% done`);
         },
         (error) => {
           reject(error);
         },
         () => {
+          uploadedImages++;
+          const progressPercentage = (uploadedImages / totalImages) * 100;
+          setImageUpload(progressPercentage);
+          if (uploadedImages === totalImages) {
+            setImageUpload(100);
+          }
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             resolve(downloadURL);
           });
@@ -234,6 +244,8 @@ const CreateListing = () => {
       uploading={uploading}
       setFiles={setFiles}
       files={files}
+      imageUpload={imageUpload}
+      setImageUpload={setImageUpload}
       name="Create"
     />
   );

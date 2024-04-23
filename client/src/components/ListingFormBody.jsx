@@ -11,8 +11,11 @@ import {
   Center,
   Checkbox,
   SimpleGrid,
+  CircularProgress,
+  CircularProgressLabel,
 } from "@chakra-ui/react";
 import CreateListingCards from "../components/CreateListingCards";
+import { useState } from "react";
 
 const ListingFormBody = ({
   handleImageSubmit,
@@ -27,7 +30,11 @@ const ListingFormBody = ({
   setFiles,
   files,
   name,
+  imageUpload,
+  setImageUpload,
 }) => {
+  const [showSpinner, setShowSpinner] = useState(true);
+  // console.log(imageUpload)
   return (
     <Box w="100%">
       <Heading
@@ -225,7 +232,27 @@ const ListingFormBody = ({
               Upload
             </Button>
           </SimpleGrid>
-
+          {imageUpload !== 0 && imageUpload !== 100 && (
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <CircularProgress value={imageUpload} color="green.400">
+                <CircularProgressLabel color="white">
+                  {Math.floor(imageUpload)}%
+                </CircularProgressLabel>
+              </CircularProgress>
+            </Box>
+          )}
+          {imageUpload === 100 && showSpinner && (
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <CircularProgress value={100} color="green.400">
+                <CircularProgressLabel color="white">
+                  100%
+                </CircularProgressLabel>
+              </CircularProgress>
+              {setTimeout(() => {
+                setShowSpinner(false)
+              }, 500)}
+            </Box>
+          )}
           <CreateListingCards
             handleRemoveImage={handleRemoveImage}
             formData={formData}

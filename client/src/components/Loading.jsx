@@ -1,14 +1,15 @@
-import { Flex, Spinner, Text } from '@chakra-ui/react';
-import React from 'react'
+import { Flex, Spinner, Text } from "@chakra-ui/react";
+import React from "react";
 
 const Loading = () => {
   return (
     <Flex
+      mt="15rem"
       align="center"
       justify="center"
-      h="100vh"
       direction="column"
       gap="15px"
+      height="100%"
     >
       <Spinner
         thickness="4px"
@@ -20,6 +21,6 @@ const Loading = () => {
       <Text color="white">The Page is Loading, Please Wait...</Text>
     </Flex>
   );
-}
+};
 
-export default Loading
+export default Loading;

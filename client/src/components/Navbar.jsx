@@ -8,6 +8,7 @@ import { Heading } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
 import SearchBar from "./SearchBar";
+import AboutModal from "./AboutModal";
 
 const Navbar = () => {
   const flexBetween = "flex items-center justify-between";
@@ -97,21 +98,17 @@ const Navbar = () => {
 
           {/* left side */}
 
-          {isAboveMediumScreens && !isSearchPage ? (
+          {isAboveMediumScreens ? (
             <div className={`${flexBetween} w-full`}>
               <div className={`${flexBetween} gap-8 text-sm`}>
-                <Link to="/about">
-                  <Text fontSize="xl" color={"white"}>
-                    About
-                  </Text>
-                </Link>
+                <AboutModal />
               </div>
 
               {/* search bar in the middle */}
 
               <SearchBar
-                width={{ xl: "570px", md: "370px" }}
-                ml="-12rem"
+                width={{ xl: "500px", md: "300px" }}
+                ml="-16rem"
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
                 handleSubmit={handleSubmit}

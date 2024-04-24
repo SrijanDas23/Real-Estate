@@ -16,6 +16,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Stack } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
+import AboutModal from "./AboutModal";
 
 const Sidebar = ({ searchTerm, setSearchTerm, handleSubmit }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -82,12 +83,6 @@ const Sidebar = ({ searchTerm, setSearchTerm, handleSubmit }) => {
               <Link to="/">
                 <Button bg="#808080" w={270} onClick={onClose}>
                   Home
-                </Button>
-              </Link>
-
-              <Link to="/about">
-                <Button bg="#808080" w={270} onClick={onClose}>
-                  About
                 </Button>
               </Link>
 

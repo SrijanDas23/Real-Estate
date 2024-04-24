@@ -34,7 +34,7 @@ const ListingFormBody = ({
   setImageUpload,
 }) => {
   const [showSpinner, setShowSpinner] = useState(true);
-  // console.log(imageUpload)
+  console.log(imageUpload)
   return (
     <Box w="100%">
       <Heading

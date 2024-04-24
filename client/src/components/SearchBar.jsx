@@ -15,7 +15,7 @@ const SearchBar = ({ width, ml, searchTerm, setSearchTerm, handleSubmit }) => {
       </InputRightElement>
       <Input
         type="text"
-        placeholder="Search for estates..."
+        placeholder="Search for estates or locations..."
         borderRadius="1rem"
         borderColor="#ffffff"
         borderWidth="2px"

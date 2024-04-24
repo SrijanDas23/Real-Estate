@@ -17,6 +17,7 @@ const EditListing = () => {
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
+  const [imageUpload, setImageUpload] = useState(0);
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: "",
@@ -36,6 +37,8 @@ const EditListing = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  let totalImages = 0;
+  let uploadedImages = 0;
   const params = useParams();
   const disabled =
     formData.name === "" ||
@@ -108,6 +111,10 @@ const EditListing = () => {
       const fileName = new Date().getTime() + file.name;
       const storageRef = ref(storage, fileName);
       const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Increment totalImages when starting to upload a new image
+      totalImages++;
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -119,6 +126,12 @@ const EditListing = () => {
           reject(error);
         },
         () => {
+          uploadedImages++;
+          const progressPercentage = (uploadedImages / totalImages) * 100;
+          setImageUpload(progressPercentage);
+          if (uploadedImages === totalImages) {
+            setImageUpload(100);
+          }
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             resolve(downloadURL);
           });
@@ -126,6 +139,7 @@ const EditListing = () => {
       );
     });
   };
+
 
   const handleRemoveImage = (index) => {
     setFormData({
@@ -250,6 +264,8 @@ const EditListing = () => {
       uploading={uploading}
       setFiles={setFiles}
       files={files}
+      imageUpload={imageUpload}
+      setImageUpload={setImageUpload}
       name="Edit"
     />
   );

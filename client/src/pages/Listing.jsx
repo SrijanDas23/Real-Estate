@@ -3,18 +3,12 @@ import {
   Button,
   Flex,
   Heading,
-  Image,
-  Spinner,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
 import { Link, useParams } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay, Pagination } from "swiper/modules";
-import SwiperCore from "swiper";
-import "swiper/css/bundle";
 import Loading from "../components/Loading";
 
 import LinkCopy from "../components/LinkCopy";
@@ -28,11 +22,9 @@ import {
 import Contact from "../components/Contact";
 
 const Listing = () => {
-  SwiperCore.use([Navigation, Autoplay, Pagination]);
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  //   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
@@ -64,25 +56,23 @@ const Listing = () => {
     return (+regularPrice - +discountPrice).toLocaleString("en-IN");
   }
 
-
   return (
     <>
       {loading && <Loading />}
       <Box>
         {listing && !loading && !error && (
           <>
-            <Swiper
-              navigation
-              loop
-              autoplay={{ delay: 3000 }}
-              pagination={{ clickable: true }}
-              style={{
-                "--swiper-navigation-size": "40px",
-                "--swiper-navigation-color": "black",
-              }}
+            <Carousel
+              autoPlay={true}
+              interval={4000}
+              showStatus={false}
+              infiniteLoop={true}
+              showIndicators={false}
+              stopOnHover={true}
+              showThumbs={false}
             >
               {listing.imageUrls.map((url) => (
-                <SwiperSlide key={url}>
+                <Box key={url} h={{ lg: "600px", md: "500px" }}>
                   <Box
                     h={{ lg: "600px", base: "500px" }}
                     style={{
@@ -90,9 +80,9 @@ const Listing = () => {
                       backgroundSize: "cover",
                     }}
                   ></Box>
-                </SwiperSlide>
+                </Box>
               ))}
-            </Swiper>
+            </Carousel>
             <Flex
               flexDirection="column"
               maxWidth={{ base: "95%", md: "80%", lg: "70%", xl: "60%" }}

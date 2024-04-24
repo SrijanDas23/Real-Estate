@@ -53,6 +53,7 @@ const SearchFilterModal = ({
           <ModalCloseButton color="white" />
           <ModalBody>
             <Box>
+              <Text color="white" my="0.5rem">Search for names/locations</Text>
               <InputGroup size="lg" width="80%">
                 <InputRightElement>
                   <SearchIcon color="#808080" size="1.5rem" />
@@ -60,7 +61,7 @@ const SearchFilterModal = ({
                 <Input
                   id="searchTerm"
                   type="text"
-                  placeholder="Search for estates..."
+                  placeholder="Search for estates or locations..."
                   borderRadius="1rem"
                   borderColor="#ffffff"
                   borderWidth="2px"
@@ -162,13 +163,13 @@ const SearchFilterModal = ({
                     onClick={() => handleSelect("createdAt_desc", "Latest")}
                     minH="40px"
                   >
-                    Latest
+                    Latest First
                   </MenuItem>
                   <MenuItem
                     onClick={() => handleSelect("createdAt_asc", "Oldest")}
                     minH="40px"
                   >
-                    Oldest
+                    Oldest First
                   </MenuItem>
                 </MenuList>
               </Menu>

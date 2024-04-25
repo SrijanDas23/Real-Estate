@@ -22,6 +22,13 @@ const app = express();
 
 const corsOptions = {
   origin: ["https://real-estate-2-fak2.onrender.com", "http://localhost:5173"],
+  Credential: true,
+  methods: ["GET", "PUT", "POST", "DELETE"],
+  allowedHeaders: [
+    "Access-Control-Allow-Origin",
+    "Content-Type",
+    "Authorization",
+  ],
 };
 
 app.use(express.json());

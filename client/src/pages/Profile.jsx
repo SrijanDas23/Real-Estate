@@ -236,7 +236,6 @@ const Profile = () => {
     }
   };
 
-
   const handleListingDelete = async (listingId) => {
     try {
       const res = await fetch(

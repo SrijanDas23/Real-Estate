@@ -30,7 +30,9 @@ const Home = () => {
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch("/api/listing/get?offer=true&limit=10");
+        const res = await fetch(
+          "https://real-estate-0kkf.onrender.com/api/listing/get?offer=true&limit=10"
+        );
         const data = await res.json();
         setOfferListings(data);
         fetchRentListings();
@@ -41,7 +43,7 @@ const Home = () => {
     const fetchRentListings = async () => {
       try {
         const res = await fetch(
-          "/api/listing/get?type=rent&sort=regularPrice&order=desc"
+          "https://real-estate-0kkf.onrender.com/api/listing/get?type=rent&sort=regularPrice&order=desc"
         );
         const data = await res.json();
         setRentListings(data);
@@ -54,7 +56,7 @@ const Home = () => {
     const fetchSaleListings = async () => {
       try {
         const res = await fetch(
-          "/api/listing/get?type=sale&sort=regularPrice&order=desc"
+          "https://real-estate-0kkf.onrender.com/api/listing/get?type=sale&sort=regularPrice&order=desc"
         );
         const data = await res.json();
         setSaleListings(data);
@@ -67,7 +69,7 @@ const Home = () => {
     const fetchRecentListings = async () => {
       try {
         const res = await fetch(
-          "/api/listing/get?sort=createdAt&order=desc&limit=8"
+          "https://real-estate-0kkf.onrender.com/api/listing/get?sort=createdAt&order=desc&limit=8"
         );
         const data = await res.json();
         setRecentListings(data);

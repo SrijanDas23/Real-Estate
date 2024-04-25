@@ -24,7 +24,7 @@ const __dirname = path.resolve();
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://real-estate-2-fak2.onrender.com",
 };
 
 app.use(express.json());

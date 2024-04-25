@@ -33,9 +33,13 @@ app.use(cors(corsOptions));
 
 app.use(cookieParser());
 
-app.listen(3000, () => {
-  console.log("server is running at 3000");
-  // nodemon api/index.js
+// app.listen(3000, () => {
+//   console.log("server is running at 3000");
+//   // nodemon api/index.js
+// });
+
+app.get("/", (req, res) => {
+  res.status(201).json({ message: "Connected to Backend!" });
 });
 
 app.use("/api/user", userRouter);

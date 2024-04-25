@@ -7,7 +7,6 @@ import listingRouter from "./routes/listing.route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-
 dotenv.config();
 
 mongoose
@@ -19,12 +18,10 @@ mongoose
     console.log(err);
   });
 
-
-
 const app = express();
 
 const corsOptions = {
-  origin: "https://real-estate-2-fak2.onrender.com",
+  origin: ["https://real-estate-2-fak2.onrender.com", "http://localhost:5173"],
 };
 
 app.use(express.json());

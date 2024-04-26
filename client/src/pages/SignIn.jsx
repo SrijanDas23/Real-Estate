@@ -65,6 +65,7 @@ const SignIn = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: 'include',
           body: JSON.stringify(formData),
         }
       );
@@ -115,6 +116,7 @@ const SignIn = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: 'include',
           body: JSON.stringify({
             name: result.user.displayName,
             email: result.user.email,

@@ -221,7 +221,11 @@ const Profile = () => {
     try {
       setShowListingsError(false);
       const res = await fetch(
-        `https://real-estate-0kkf.onrender.com/api/user/listings/${currentUser._id}?limit=${limit}`
+        `https://real-estate-0kkf.onrender.com/api/user/listings/${currentUser._id}?limit=${limit}`,
+        {
+          method: "GET",
+          credentials: "same-origin", // Important: Include credentials for cookies to be sent
+        }
       );
       const data = await res.json();
       if (data.success === false) {

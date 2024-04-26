@@ -28,7 +28,11 @@ const Listing = () => {
       try {
         setLoading(true);
         const res = await fetch(
-          `https://real-estate-0kkf.onrender.com/api/listing/get/${params.listingId}`
+          `https://real-estate-0kkf.onrender.com/api/listing/get/${params.listingId}`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
         );
         const data = await res.json();
         console.log(data);

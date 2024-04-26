@@ -226,7 +226,7 @@ const Profile = () => {
         `https://real-estate-0kkf.onrender.com/api/user/listings/${currentUser._id}?limit=${limit}`,
         {
           method: "GET",
-          credentials: "include", // Important: Include credentials for cookies to be sent
+          credentials: "include",
         }
       );
       const data = await res.json();

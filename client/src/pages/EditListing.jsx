@@ -51,7 +51,9 @@ const EditListing = () => {
     const fetchListing = async () => {
       const listingId = params.listingId;
       //   console.log(listingId);
-      const res = await fetch(`/api/listing/get/${listingId}`);
+      const res = await fetch(
+        `https://real-estate-0kkf.onrender.com/api/listing/get/${listingId}`
+      );
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
@@ -206,16 +208,19 @@ const EditListing = () => {
 
       setLoading(true);
       setError(false);
-      const res = await fetch(`/api/listing/update/${params.listingId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          userRef: currentUser._id,
-        }),
-      });
+      const res = await fetch(
+        `https://real-estate-0kkf.onrender.com/api/listing/update/${params.listingId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...formData,
+            userRef: currentUser._id,
+          }),
+        }
+      );
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {

@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Carousel } from "react-responsive-carousel";
@@ -33,9 +27,7 @@ const Listing = () => {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
-          `https://real-estate-0kkf.onrender.com/api/listing/get/${params.listingId}`
-        );
+        const res = await fetch(`/api/listing/get/${params.listingId}`);
         const data = await res.json();
         console.log(data);
         if (data.success === false) {

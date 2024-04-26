@@ -102,7 +102,7 @@ const Profile = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "same-origin",
+          credentials: "include",
           body: JSON.stringify(formData),
         }
       );
@@ -146,7 +146,7 @@ const Profile = () => {
         `https://real-estate-0kkf.onrender.com/api/user/delete/${currentUser._id}`,
         {
           method: "DELETE",
-          credentials: "same-origin",
+          credentials: "include",
         }
       );
       const data = await res.json();
@@ -226,7 +226,7 @@ const Profile = () => {
         `https://real-estate-0kkf.onrender.com/api/user/listings/${currentUser._id}?limit=${limit}`,
         {
           method: "GET",
-          credentials: "same-origin", // Important: Include credentials for cookies to be sent
+          credentials: "include", // Important: Include credentials for cookies to be sent
         }
       );
       const data = await res.json();
@@ -248,7 +248,7 @@ const Profile = () => {
         `https://real-estate-0kkf.onrender.com/api/listing/delete/${listingId}`,
         {
           method: "DELETE",
-          credentials: "same-origin",
+          credentials: "include",
         }
       );
       const data = await res.json();

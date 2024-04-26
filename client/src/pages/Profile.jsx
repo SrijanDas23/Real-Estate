@@ -102,6 +102,7 @@ const Profile = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "same-origin",
           body: JSON.stringify(formData),
         }
       );
@@ -145,6 +146,7 @@ const Profile = () => {
         `https://real-estate-0kkf.onrender.com/api/user/delete/${currentUser._id}`,
         {
           method: "DELETE",
+          credentials: "same-origin",
         }
       );
       const data = await res.json();
@@ -246,6 +248,7 @@ const Profile = () => {
         `https://real-estate-0kkf.onrender.com/api/listing/delete/${listingId}`,
         {
           method: "DELETE",
+          credentials: "same-origin",
         }
       );
       const data = await res.json();

@@ -1,6 +1,8 @@
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { useState } from "react";
 import ListingItem from "./ListingItem";
+import SeeLessButton from "./SeeLessButton";
+import SeeMoreButton from "./SeeMoreButton";
 
 const HomeRecentListings = ({ recentListings }) => {
   const handleSeeMore = () => {
@@ -36,29 +38,22 @@ const HomeRecentListings = ({ recentListings }) => {
             justifyContent="space-evenly"
             mt="2rem"
           >
-            {recentListings.slice(0, displayedListings).map((listing, index) => (
-              <ListingItem key={listing._id} listing={listing} index={index} />
-            ))}
+            {recentListings
+              .slice(0, displayedListings)
+              .map((listing, index) => (
+                <ListingItem
+                  key={listing._id}
+                  listing={listing}
+                  index={index}
+                />
+              ))}
           </Flex>
           <Box display="flex" justifyContent="space-between" my={4}>
             {displayedListings > 4 && (
-              <Button
-                onClick={handleSeeLess}
-                colorScheme="red"
-                variant="outline"
-              >
-                See Less...
-              </Button>
+              <SeeLessButton handleSeeLess={handleSeeLess} />
             )}
             {recentListings.length > displayedListings && (
-              <Button
-                onClick={handleSeeMore}
-                colorScheme="blue"
-                variant="outline"
-                ml="auto"
-              >
-                See More...
-              </Button>
+              <SeeMoreButton handleSeeMore={handleSeeMore} />
             )}
           </Box>
         </Box>

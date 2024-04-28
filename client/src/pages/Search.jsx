@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import ListingItem from "../components/ListingItem";
 import Loading from "../components/Loading";
 import { FaHouseChimneyCrack } from "react-icons/fa6";
+import SeeLessButton from "../components/SeeLessButton";
+import SeeMoreButton from "../components/SeeMoreButton";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -215,19 +217,10 @@ const Search = () => {
         </Box>
         <Box display="flex" justifyContent="space-between" my={4}>
           {displayedListings > 6 && (
-            <Button onClick={handleSeeLess} colorScheme="red" variant="outline">
-              See Less...
-            </Button>
+            <SeeLessButton handleSeeLess={handleSeeLess} />
           )}
           {listings.length > displayedListings && (
-            <Button
-              onClick={handleSeeMore}
-              colorScheme="blue"
-              variant="outline"
-              ml="auto"
-            >
-              See More...
-            </Button>
+            <SeeMoreButton handleSeeMore={handleSeeMore} />
           )}
         </Box>
       </Box>

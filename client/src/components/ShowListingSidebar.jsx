@@ -17,6 +17,8 @@ import {
 import { EditIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import ListingDeleteModal from "./ListingDeleteModal";
+import SeeLessButton from "./SeeLessButton";
+import SeeMoreButton from "./SeeMoreButton";
 
 const ShowListingSidebar = ({
   handleListingDelete,
@@ -144,23 +146,10 @@ const ShowListingSidebar = ({
             </Stack>
             <Box display="flex" justifyContent="space-between" mt={4}>
               {displayedListings > 4 && (
-                <Button
-                  onClick={handleSeeLess}
-                  colorScheme="red"
-                  variant="outline"
-                >
-                  See Less...
-                </Button>
+                <SeeLessButton handleSeeLess={handleSeeLess} />
               )}
               {userListings.length > displayedListings && (
-                <Button
-                  onClick={handleSeeMore}
-                  colorScheme="blue"
-                  variant="outline"
-                  ml="auto"
-                >
-                  See More...
-                </Button>
+                <SeeMoreButton handleSeeMore={handleSeeMore} />
               )}
             </Box>
           </DrawerBody>

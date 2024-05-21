@@ -1,16 +1,17 @@
 # RealEstate
----
+
 RealEstate is a web application designed for listing real estate properties. It allows users to browse, search, and manage property listings efficiently.
 
+
 ## Table of Contents
----
+
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
 - [Contact](#contact)
 
 ## Installation
----
+
 Follow these steps to install and set up the RealEstate project.
 
 ```bash
@@ -28,7 +29,7 @@ npm run install-client
 ```
 
 ## Usage
----
+
 A guide on how to use the RealEstate application.
 
 ```bash
@@ -46,7 +47,7 @@ npm run start-client
 ```
 
 ## Features
----
+
 The RealEstate application includes the following features:
 
 - Property listing with images, descriptions, and prices
@@ -56,7 +57,7 @@ The RealEstate application includes the following features:
 - Responsive design for optimal viewing on all devices
 
 ## Contact
----
+
 Email: [srijan.dastiku@gmail.com](mailto:srijan.dastiku@gmail.com)
 
 Github: 

@@ -60,6 +60,6 @@ The RealEstate application includes the following features:
 
 Email: [srijan.dastiku@gmail.com](mailto:srijan.dastiku@gmail.com)
 
-Github: 
+Github: [SrijanDas23](https://github.com/SrijanDas23)
 
-Hosted Website: [SrijanDas23](https://github.com/SrijanDas23)
+Hosted Website: [RealEstate](https://real-estate-2-fak2.onrender.com/)

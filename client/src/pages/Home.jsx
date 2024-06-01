@@ -18,18 +18,21 @@ import ListingItem from "../components/ListingItem";
 import HomeRentListings from "../components/HomeRentListings";
 import HomeSaleListings from "../components/HomeSaleListings";
 import HomeRecentListings from "../components/HomeRecentListings";
+import Loading from "../components/Loading";
 
 const Home = () => {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
   const [recentListings, setRecentListings] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // console.log(recentListings);
 
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
+        setLoading(true);
         const res = await fetch(
           "https://real-estate-0kkf.onrender.com/api/listing/get?offer=true&limit=10"
         );
@@ -73,6 +76,7 @@ const Home = () => {
         );
         const data = await res.json();
         setRecentListings(data);
+        setLoading(false);
       } catch (error) {
         log(error);
       }
@@ -82,13 +86,20 @@ const Home = () => {
 
   return (
     <>
-      <HomeCarousel offerListings={offerListings} />
+      {loading && <Loading />}
+      {/* <Loading/> */}
 
-      <HomeRentListings rentListings={rentListings} />
+      {!loading && (
+        <Box>
+          <HomeCarousel offerListings={offerListings} />
 
-      <HomeSaleListings saleListings={saleListings} />
+          <HomeRentListings rentListings={rentListings} />
 
-      <HomeRecentListings recentListings={recentListings} />
+          <HomeSaleListings saleListings={saleListings} />
+
+          <HomeRecentListings recentListings={recentListings} />
+        </Box>
+      )}
     </>
   );
 };

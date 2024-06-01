@@ -18,6 +18,7 @@ import Loading from "../components/Loading";
 import { FaHouseChimneyCrack } from "react-icons/fa6";
 import SeeLessButton from "../components/SeeLessButton";
 import SeeMoreButton from "../components/SeeMoreButton";
+import loader from "../assets/SearchPageGif.gif";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -178,7 +179,7 @@ const Search = () => {
             selectedOption={selectedOption}
           />
         </Box>
-        {loading && <Loading />}
+        {loading && <Loading loader={loader} mt={"-8rem"} />}
         {!loading && listings.length === 0 && (
           <Box
             mt="5rem"

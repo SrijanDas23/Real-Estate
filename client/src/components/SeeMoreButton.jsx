@@ -13,9 +13,9 @@ const SeeMoreButton = ({handleSeeMore}) => {
       fontFamily="'Shantell Sans', cursive"
       sx={{
         "&:hover": {
-          boxShadow: "0 1em 3em -0.4em #b8b8ff", // Whitish-blue box shadow
-          transform: "translateY(-0.25em)",
-          textShadow: "white 0 0 1em",
+          boxShadow: "0.2rem 0.2rem 1rem #b8b8ff", // Whitish-blue box shadow
+          transform: "translateY(-0.25rem)",
+          textShadow: "white 0 0 1rem",
         },
       }}
     >
